@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:take_me/globals.dart';
-import 'package:take_me/pages/available_rides_page.dart';
 import 'package:take_me/pages/map_page.dart';
+import 'package:take_me/pages/messages_page.dart';
 
 import '../data/location_data.dart';
 import '../widgets/action_button.dart';
 
-class GetRidePage extends StatefulWidget {
-  const GetRidePage({super.key});
+class GetCompanyPage extends StatefulWidget {
+  const GetCompanyPage({super.key});
 
   @override
-  State<GetRidePage> createState() => _GetRidePageState();
+  State<GetCompanyPage> createState() => _GetCompanyPageState();
 }
 
-class _GetRidePageState extends State<GetRidePage> {
+class _GetCompanyPageState extends State<GetCompanyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Get Ride"),
+        title: const Text("Get Company"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -32,13 +32,28 @@ class _GetRidePageState extends State<GetRidePage> {
               ),
               padding: const EdgeInsets.all(15.0),
               child: const Text(
-                "We need few details before we can help you. 😊",
+                "You are great! We need few details before people can accompany you.😎",
                 style: TextStyle(fontSize: 14, color: Colors.white),
               ),
             ),
             _getTextField("Your Name", "", (v) {}),
             _getTextField("Phone Number", "", (v) {}),
-            _getTextField("Number of people", "", (v) {}),
+            _getTextField("Vehicle Number", "", (v) {}),
+            const SizedBox(height: 20),
+            const Text("Select all tags that apply:"),
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 10.0,
+              children: const [
+                ChipWidget(text: "Paid"),
+                ChipWidget(text: "Free"),
+                ChipWidget(text: "AC"),
+                ChipWidget(text: "Mask Required"),
+                ChipWidget(text: "2 Seater"),
+                ChipWidget(text: "4 Seater"),
+                ChipWidget(text: "7 Seater"),
+              ],
+            ),
             const SizedBox(height: 20),
             Row(
               children: [
@@ -77,9 +92,14 @@ class _GetRidePageState extends State<GetRidePage> {
             ),
             const Spacer(),
             ActionButton(
-                text: "Search",
+                text: "Continue",
                 onPressed: () {
-                  goToPage(context, const AvailableRidesPage());
+                  goToPage(
+                    context,
+                    const MessagesPage(
+                      requestingRide: false,
+                    ),
+                  );
                 }),
             const SizedBox(height: 20)
           ],
@@ -107,6 +127,42 @@ class _GetRidePageState extends State<GetRidePage> {
           border: InputBorder.none,
         ),
       ),
+    );
+  }
+}
+
+class ChipWidget extends StatefulWidget {
+  final String text;
+  final bool displayOnly;
+  const ChipWidget({
+    super.key,
+    required this.text,
+    this.displayOnly = false,
+  });
+
+  @override
+  State<ChipWidget> createState() => _ChipWidgetState();
+}
+
+class _ChipWidgetState extends State<ChipWidget> {
+  bool selected = false;
+
+  @override
+  void initState() {
+    if (widget.displayOnly) selected = true;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ChoiceChip(
+      selected: selected,
+      onSelected: (e) {
+        if (widget.displayOnly) return;
+        selected = !selected;
+        setState(() {});
+      },
+      label: Text(widget.text),
     );
   }
 }

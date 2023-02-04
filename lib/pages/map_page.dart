@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:take_me/data/location_data.dart';
+import 'package:take_me/globals.dart';
 
 class MapPage extends StatefulWidget {
-  const MapPage({super.key});
+  final bool isPickup;
+  final LatLng? location;
+  const MapPage({
+    super.key,
+    this.isPickup = false,
+    required this.location,
+  });
 
   @override
   State<MapPage> createState() => _MapPageState();
@@ -16,71 +25,155 @@ class _MapPageState extends State<MapPage> {
   );
   GoogleMapController? controller;
   Set<Marker> markers = {};
+  final startAddressController = TextEditingController();
 
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
+  @override
+  void dispose() {
+    controller!.dispose();
+    super.dispose();
+  }
 
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      bool res = await Geolocator.openLocationSettings();
-      if (!res) return Future.error('Location services are disabled.');
-    }
+  _determinePosition() async {
+    if (locationData.currentLocation == null) {
+      bool serviceEnabled;
+      LocationPermission permission;
 
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        bool res = await Geolocator.openLocationSettings();
+        if (!res) return Future.error('Location services are disabled.');
       }
+
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          return Future.error('Location permissions are denied');
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        return Future.error(
+            'Location permissions are permanently denied, we cannot request permissions.');
+      }
+
+      var pos = await Geolocator.getCurrentPosition();
+      var currentLatLng = LatLng(pos.latitude, pos.longitude);
+      locationData.currentLocation = currentLatLng;
     }
 
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
+// Add marker only if the location passed is null
+    if (widget.location != null) return;
 
-    var pos = await Geolocator.getCurrentPosition();
     currentPosition = CameraPosition(
-      target: LatLng(pos.latitude, pos.longitude),
+      target: locationData.currentLocation!,
       zoom: 15.0,
     );
     if (controller != null) {
-      markers.add(Marker(
-        markerId: MarkerId(DateTime.now().microsecondsSinceEpoch.toString()),
-        position: LatLng(pos.latitude, pos.longitude),
-        infoWindow: const InfoWindow(title: "You are here"),
-      ));
+      addMarker(currentPosition.target);
       controller!.moveCamera(
         CameraUpdate.newCameraPosition(currentPosition),
       );
       setState(() {});
     }
-    return pos;
   }
 
   @override
   void initState() {
+    if (widget.location != null) {
+      currentPosition = CameraPosition(
+        target: widget.location!,
+        zoom: 15.0,
+      );
+      addMarker(widget.location!);
+    }
     super.initState();
+  }
+
+  addMarker(LatLng loc) {
+    markers.clear();
+    markers.add(
+      Marker(
+        markerId: MarkerId(DateTime.now().microsecondsSinceEpoch.toString()),
+        position: loc,
+      ),
+    );
+    setState(() {});
+  }
+
+  _getAddress(String address) async {
+    List<Location> data = await locationFromAddress(address);
+    if (data.isEmpty) {
+      return;
+    }
+
+    addMarker(LatLng(data[0].latitude, data[0].longitude));
+    currentPosition = CameraPosition(
+      target: LatLng(data[0].latitude, data[0].longitude),
+      zoom: 15.0,
+    );
+    controller!.moveCamera(
+      CameraUpdate.newCameraPosition(currentPosition),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Select Destination")),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: accentColor,
+        child: const Icon(Icons.save, color: Colors.white),
+        onPressed: () {
+          Navigator.pop(context, currentPosition);
+        },
+      ),
+      appBar: AppBar(
+        title: Text(widget.isPickup ? "Pickp Location" : "Select Destination"),
+        bottom: PreferredSize(
+          preferredSize: const Size(double.infinity, 50),
+          child: Container(
+            margin:
+                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            child: TextField(
+              onSubmitted: (value) => {_getAddress(value)},
+              decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 15.0,
+                    vertical: 10.0,
+                  ),
+                  border: InputBorder.none,
+                  prefixIcon: Icon(Icons.search),
+                  hintText: "Search"),
+            ),
+          ),
+        ),
+      ),
       body: GoogleMap(
+        zoomControlsEnabled: false,
+        myLocationEnabled: true,
+        scrollGesturesEnabled: true,
         mapType: MapType.normal,
         initialCameraPosition: currentPosition,
         compassEnabled: true,
+        myLocationButtonEnabled: true,
         markers: markers,
         onTap: (e) async {
           markers.clear();
+
+          if (widget.isPickup) {
+            locationData.pickupLocation = e;
+          } else {
+            locationData.destinationLocation = e;
+          }
 
           markers.add(Marker(
             markerId:
                 MarkerId(DateTime.now().microsecondsSinceEpoch.toString()),
             position: e,
-            infoWindow: const InfoWindow(title: "Destination"),
           ));
           setState(() {});
         },

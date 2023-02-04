@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:take_me/globals.dart';
 import 'package:take_me/pages/auth.dart';
 
 void main() {
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Take Me',
       theme: ThemeData(
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: accentColor),
         fontFamily: GoogleFonts.poppins().fontFamily,
       ),
       home: const AuthPage(),

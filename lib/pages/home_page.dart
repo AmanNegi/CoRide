@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:take_me/globals.dart';
+import 'package:take_me/pages/get_company_page.dart';
 import 'package:take_me/pages/get_ride_page.dart';
 import 'package:take_me/widgets/action_button.dart';
 
@@ -50,7 +51,9 @@ class _HomePageState extends State<HomePage> {
               child: ActionButton(
                 text: "I want some company",
                 isFilled: false,
-                onPressed: () {},
+                onPressed: () {
+                  goToPage(context, const GetCompanyPage());
+                },
               ),
             ),
             SizedBox(height: 0.1 * getHeight(context)),

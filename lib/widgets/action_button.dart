@@ -36,7 +36,10 @@ class _ActionButtonState extends State<ActionButton> {
               ? widget.fillColor ?? accentColor
               : Colors.transparent,
           border: Border.all(
-            color: !widget.isFilled ? accentColor : Colors.transparent,
+            width: 0.7,
+            color: !widget.isFilled
+                ? widget.fillColor ?? accentColor
+                : Colors.transparent,
           ),
           borderRadius: BorderRadius.circular(30.0),
         ),
@@ -44,7 +47,9 @@ class _ActionButtonState extends State<ActionButton> {
           child: Text(
             widget.text,
             style: TextStyle(
-              color: widget.isFilled ? Colors.white : accentColor,
+              color: widget.isFilled
+                  ? Colors.white
+                  : widget.fillColor ?? accentColor,
               fontSize: 16,
             ),
           ),
