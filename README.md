@@ -1,4 +1,4 @@
-##Co-Ride ~ Hack-accelerate 2023
+# Co-Ride ~ Hack-accelerate 2023
 > Join the Ride, Make a Difference
 
 ## Inspiration ✨
