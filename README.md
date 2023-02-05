@@ -1,6 +1,6 @@
-# take_me
+# co_ride
 
-A new Flutter project.
+> Join the Ride, Make a difference
 
 ## Getting Started
 

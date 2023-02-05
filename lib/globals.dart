@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-Color accentColor = const Color(0xFF03045e);
- Color lightColor = Color(0xFF0077b6);
+// Color accentColor = const Color(0xFF03045e);
+Color accentColor = const Color(0xFF2a9d8f);
+Color lightColor = const Color(0xFF0077b6);
+
 goToPage(BuildContext context, Widget destination, {bool clearStack = false}) {
   if (clearStack) {
     return Navigator.of(context).pushAndRemoveUntil(

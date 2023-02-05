@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:take_me/data/location_data.dart';
+import 'package:co_ride/data/location_data.dart';
 
 class MapWidget extends StatefulWidget {
   final bool isPickup;

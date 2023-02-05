@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:take_me/globals.dart';
-import 'package:take_me/pages/available_rides_page.dart';
-import 'package:take_me/pages/map_page.dart';
+import 'package:co_ride/globals.dart';
+import 'package:co_ride/pages/available_rides_page.dart';
+import 'package:co_ride/pages/map_page.dart';
 
 import '../data/location_data.dart';
 import '../widgets/action_button.dart';
@@ -14,6 +14,10 @@ class GetRidePage extends StatefulWidget {
 }
 
 class _GetRidePageState extends State<GetRidePage> {
+  String name = "";
+  String phone = "";
+  String people = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +31,7 @@ class _GetRidePageState extends State<GetRidePage> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: accentColor.withOpacity(0.7),
+                color: accentColor,
                 borderRadius: BorderRadius.circular(5.0),
               ),
               padding: const EdgeInsets.all(15.0),
@@ -36,9 +40,30 @@ class _GetRidePageState extends State<GetRidePage> {
                 style: TextStyle(fontSize: 14, color: Colors.white),
               ),
             ),
-            _getTextField("Your Name", "", (v) {}),
-            _getTextField("Phone Number", "", (v) {}),
-            _getTextField("Number of people", "", (v) {}),
+            _getTextField(
+              "Your Name",
+              name,
+              (v) {
+                name = v;
+                setState(() {});
+              },
+            ),
+            _getTextField(
+              "Phone Number",
+              phone,
+              (v) {
+                phone = v;
+                setState(() {});
+              },
+            ),
+            _getTextField(
+              "Number of people",
+              people,
+              (v) {
+                people = v;
+                setState(() {});
+              },
+            ),
             const SizedBox(height: 20),
             Row(
               children: [
@@ -81,7 +106,7 @@ class _GetRidePageState extends State<GetRidePage> {
                 onPressed: () {
                   goToPage(context, const AvailableRidesPage());
                 }),
-            const SizedBox(height: 20)
+            const SizedBox(height: 10)
           ],
         ),
       ),

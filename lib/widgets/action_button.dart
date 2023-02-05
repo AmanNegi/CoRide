@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:take_me/globals.dart';
+import 'package:co_ride/globals.dart';
 
 class ActionButton extends StatefulWidget {
   final String text;

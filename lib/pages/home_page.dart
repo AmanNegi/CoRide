@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:take_me/globals.dart';
-import 'package:take_me/pages/get_company_page.dart';
-import 'package:take_me/pages/get_ride_page.dart';
-import 'package:take_me/widgets/action_button.dart';
+import 'package:co_ride/globals.dart';
+import 'package:co_ride/pages/get_company_page.dart';
+import 'package:co_ride/pages/get_ride_page.dart';
+import 'package:co_ride/widgets/action_button.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

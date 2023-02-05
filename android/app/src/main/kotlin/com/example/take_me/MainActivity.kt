@@ -1,4 +1,4 @@
-package com.example.take_me
+package com.example.co_ride
 
 import io.flutter.embedding.android.FlutterActivity
 

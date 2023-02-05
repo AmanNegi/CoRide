@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:take_me/globals.dart';
-import 'package:take_me/pages/home_page.dart';
-import 'package:take_me/widgets/action_button.dart';
+import 'package:co_ride/globals.dart';
+import 'package:co_ride/pages/home_page.dart';
+import 'package:co_ride/widgets/action_button.dart';
 
 class AuthPage extends StatefulWidget {
   static const String route = "/LoginPage";
@@ -27,19 +27,62 @@ class AuthPageState extends State<AuthPage> {
           children: [
             Positioned.fill(
               child: Container(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Color(0xFF03045e),
-                      Color(0xFF0077b6),
+                      accentColor,
+                      Theme.of(context).primaryColor,
+
+                      // Color(0xFF03045e),
+                      // Color(0xFF0077b6),
                     ],
                   ),
                 ),
               ),
             ),
-            Positioned.fill(
+            Positioned(
+              top: 0.045 * getHeight(context),
+              left: 0.1 * getHeight(context),
+              right: 0.1 * getHeight(context),
+              child: Image.asset("assets/logo_transparent.png"),
+            ),
+            Positioned(
+              top: 0.255 * getHeight(context),
+              left: 0.1 * getHeight(context),
+              right: 0.1 * getHeight(context),
+              child: const Center(
+                child: Text(
+                  "Co-Ride",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0.285 * getHeight(context),
+              left: 0.1 * getHeight(context),
+              right: 0.1 * getHeight(context),
+              child: const Center(
+                child: Text(
+                  "Take a Ride, make a difference",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w100,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0.1 * getHeight(context),
+              left: 0,
+              right: 0,
+              bottom: 0,
               child: _getCard(context),
             ),
           ],
@@ -75,8 +118,8 @@ class AuthPageState extends State<AuthPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text("Enter your credentials",
-                      style: TextStyle(
+                  Text(isLogin ? "Login" : "Signup",
+                      style: const TextStyle(
                         fontSize: 23,
                         color: Colors.black,
                         fontWeight: FontWeight.w800,
@@ -91,7 +134,7 @@ class AuthPageState extends State<AuthPage> {
                     onPressed: () async {
                       goToPage(context, const HomePage(), clearStack: true);
                     },
-                    text: isLogin ? "Login" : "Signup",
+                    text: "Proceed",
                   ),
                   const SizedBox(height: 20),
                   GestureDetector(

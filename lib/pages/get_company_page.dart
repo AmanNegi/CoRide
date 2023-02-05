@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:take_me/globals.dart';
-import 'package:take_me/pages/map_page.dart';
-import 'package:take_me/pages/messages_page.dart';
+import 'package:co_ride/globals.dart';
+import 'package:co_ride/pages/map_page.dart';
+import 'package:co_ride/pages/messages_page.dart';
 
 import '../data/location_data.dart';
 import '../widgets/action_button.dart';
@@ -27,7 +27,7 @@ class _GetCompanyPageState extends State<GetCompanyPage> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: accentColor.withOpacity(0.7),
+                color: accentColor,
                 borderRadius: BorderRadius.circular(5.0),
               ),
               padding: const EdgeInsets.all(15.0),

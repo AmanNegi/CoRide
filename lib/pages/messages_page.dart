@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:take_me/globals.dart';
+import 'package:co_ride/globals.dart';
+import 'package:co_ride/widgets/action_button.dart';
 
 class MessagesPage extends StatefulWidget {
   final bool requestingRide;
@@ -28,10 +29,32 @@ class _MessagesPageState extends State<MessagesPage> {
             child: ListView(
               physics: const BouncingScrollPhysics(),
               reverse: true,
-              children: [
-                _getReceivedMessageWidget("ABC"),
-                _getSelfMessageWidget("BCD")
-              ],
+              children: !widget.requestingRide
+                  ? [
+                      const SizedBox(height: 20),
+                      _getSelfMessageWidget(
+                          "Sure, thing. I am already on my way"),
+                      _getReceivedMessageWidget("Yes, can you book my ride"),
+                      _getSelfMessageWidget(
+                          "Hello, are you looking for a ride"),
+                      _getReceivedMessageWidget("Hi There!")
+                    ]
+                  : [
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: ActionButton(
+                          onPressed: () {},
+                          text: "Accept Ride",
+                        ),
+                      ),
+                      _getReceivedMessageWidget(
+                          "Sure, thing. I am already on my way"),
+                      _getSelfMessageWidget("Yes, can you book my ride"),
+                      _getReceivedMessageWidget(
+                          "Hello, are you looking for a ride"),
+                      _getSelfMessageWidget("Hi There!")
+                    ],
             ),
           ),
           Align(

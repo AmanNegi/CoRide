@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:take_me/globals.dart';
-import 'package:take_me/pages/get_company_page.dart';
+import 'package:co_ride/globals.dart';
+import 'package:co_ride/pages/get_company_page.dart';
+import 'package:co_ride/pages/messages_page.dart';
 
 class AvailableRidesPage extends StatefulWidget {
   const AvailableRidesPage({super.key});
@@ -57,14 +58,24 @@ class _AvailableRidesPageState extends State<AvailableRidesPage> {
                     const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
               ),
               const Spacer(),
-              Container(
-                padding: const EdgeInsets.all(5.0),
-                decoration: BoxDecoration(
-                    color: accentColor,
-                    borderRadius: BorderRadius.circular(5.0)),
-                child: const Icon(
-                  Icons.message_rounded,
-                  color: Colors.white,
+              GestureDetector(
+                onTap: () {
+                  goToPage(
+                    context,
+                    const MessagesPage(
+                      requestingRide: true,
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                      color: accentColor,
+                      borderRadius: BorderRadius.circular(5.0)),
+                  child: const Icon(
+                    Icons.message_rounded,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],
