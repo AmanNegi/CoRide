@@ -1,5 +1,7 @@
-# Co-Ride ~ Hack-accelerate 2023
+# Co-Ride ~ [Hack-accelerate](https://hack-ccelerate.devpost.com/) 2023
 ![banner](https://github.com/AmanNegi/co-ride/blob/main/screenshots/banner.png)
+
+> Check out the demo video [here](https://youtu.be/GjIVa58AbSQ).
 
 ## Inspiration ✨
 As the theme of this hackathon was Automobiles, I looked at the problems we face because of automobiles. We all know that automobiles play a vital role in our daily life, so it is illogical to ask people to not use vehicles. However, using vehicles wisely is something we can promote.
